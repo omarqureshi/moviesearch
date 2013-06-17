@@ -8,9 +8,7 @@
 </div>
 
 <ul>
-  <% @movies.each do |movie| %>
-  <li><%= link_to movie.presentation_title, movie %></li>
-  <% end %>
+  <%= render @movies %>
 </ul>
 
 <%= paginate @movies %>

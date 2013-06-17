@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
       end
       @movies = @movies.page(params[:page]).per(Movie::PER_PAGE)
     elsif defined?(Tire)
-      @movies = Movie.search(params[:q], params[:page])
+      @movies = Movie.search(params[:q], :page => params[:page])
     end
   end
 

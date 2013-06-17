@@ -1,0 +1,8 @@
+<h1>Years</h1>
+
+<ul>
+<% Movie.search(nil).facets["years"]["terms"].each do |facet| %>
+<li><%= link_to facet["term"], year_path(facet["term"]) %> (<%= facet["count"] %>)</li>
+<% end %>
+</ul>
+

@@ -12,11 +12,21 @@ class Movie < ActiveRecord::Base
         :presentation_title => {:type => "string", :index => :not_analyzed}
       }
       indexes :plot,                        :analyzer => "snowball"
+      indexes :year,                        :type => "integer"
     end
 
-    def self.search(q, page=1)
-      tire.search(:page => page, :per_page => 50) do
+    def self.search(q, options={:page => 1})
+      tire.search(:page => options[:page], :per_page => PER_PAGE) do
         query { string q, :default_operator => "AND" } if q.present?
+        if options[:year]
+          filter :term, :year => options[:year]
+        end
+        facet "years", :global => true do
+          # current work around for getting all the years, not an
+          # ideal fix, but, is one presented by
+          # https://github.com/karmi/tire/issues/398
+          terms :year, :size => 1000, :order => 'reverse_term'
+        end
         sort { by :presentation_title } unless q.present?
       end
     end

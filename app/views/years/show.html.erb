@@ -1,5 +1,12 @@
 <h1><%= params[:id] %></h1> 
 
+<div class="search">
+  <%= form_tag year_path(params[:id]), :method => :get do %>
+  <%= search_field_tag :q, params[:q] %>
+  <%= submit_tag "Search" %>
+  <% end %>
+</div>
+
 <ul>
   <%= render @movies %>
 </ul>
